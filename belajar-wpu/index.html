@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <!-- For course only, we can use this library, but on the real cases, do install the package -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel"> // can also use text/jsx (to notify this is a jsx -> javascript)
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+
+        // // Example of printing raw component
+        // root.render(<>
+        //     <h1 onClick={e => {alert("Yees dapet kerja")}}>Simsalabim 🚀</h1>
+        // </>); // you can put many elements here but be sure to wrap it in one parent element
+        // // End of : Example of printing raw component
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------
+
+        // // Example of returning a component from a function
+        // function LeHeader() { // use Captial for first letter
+        //     return (<h1>This is header from function</h1>);
+        // }
+
+        // root.render(<LeHeader />);
+        // // End of : Example of returning a component from a function
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------
+
+        // // Example of nested component
+        // function LeHeader() { // use Captial for first letter
+        //     return (<h1>This is header from function</h1>);
+        // }
+
+        // function LeHomePage() {
+        //     return(
+        //         <>
+        //             <LeHeader />
+        //         </>
+        //     );
+        // }
+
+        // root.render(<LeHomePage />);
+        // // End of : Example of nested componen
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------
+
+        // // Example of nested component + reusable with diff props.<MeObject> values
+        // function LeHeader(props) { // use Captial for first letter
+        //     return (<h1>This is header from function {props.MyWords}</h1>);
+        // }
+
+        // // you can actually replace "MyWords" prop here with any name you want, doesn't need to have first capital nor camel-case naming format
+        // function LeHomePage() {
+        //     return(
+        //         <>
+        //             <LeHeader MyWords ="Me First Call" />
+        //             <LeHeader  MyWords ="Me Second Call"/>
+        //         </>
+        //     );
+        // }
+
+        // root.render(<LeHomePage />);
+        // // End of : Example of nested component + reusable with diff props.<MeObject> values
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------
+
+        // // Example looping with array mapping (along with prev examples)
+        // const arrayMapListToLoop = ['Uno', 'Dos', 'Tres'];
+
+        // function LeHeader({MyWords}) { // use Captial for first letter
+        //     return (<h1>This is header from function {MyWords ? MyWords : "Me set default cause' no value"}</h1>);
+        // }
+
+        // function LeHomePage() {
+        //     return(
+        //         <> {/* the <><LeHeader/></> is html part*/}
+        //             <LeHeader  MyWords ="Me loop list example"/>
+        //             <ul>
+        //                 {
+        //                     /* This here is js part inside jsx */
+        //                     arrayMapListToLoop.map((objectInList) => (
+        //                         //<li>{objectInList}</li> // Again you can put html tag here (if you doesn't set unique key, you'll encounter error in console (React is strict with this beacuse it needs to track changes on each generated element))
+        //                         <li key={objectInList}>{objectInList}</li> // this is a more proper way to print same element (must-have unique "key" (literally))
+        //                     ))
+        //                 }
+        //             </ul>
+        //         </>
+        //     );
+        // }
+
+        // root.render(<LeHomePage />);
+        // // End of : Example looping with array mapping (along with prev examples)
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------
+
+        // Example state and hook
+        function LeHeader({MyWords}) { // use Captial for first letter (destructurization)
+            return (<h1>This is header from function {MyWords ? MyWords : "Me set default cause' no value"}</h1>);
+        }
+
+        function LeHomePage() {
+            const [MeClickCount, setMeClickCount] = React.useState(0); // Declare state and hook (array containing variable to be manipulated and function to manipulate said var) (inside useState I declare first val = 0 (it's alright if I don't declare anything though))
+
+            function handleClick() { // use Captial for first letter
+                setMeClickCount(MeClickCount + 1);
+            }
+
+            return(
+                <> {/* the <><LeHeader/></> is html part*/}
+                    <LeHeader  MyWords ="Me loop list example"/>
+                    <button onClick={handleClick}>Count ({MeClickCount})</button>
+                </>
+            );
+
+            /** (Additional) if you use a browse with extension (extension browser environment)
+             * you need to prevent this error (caused by extension) :
+             * "Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received"
+            */
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            // doing something async, e.g., fetch(), but forgetting to call sendResponse
+            return true; // telling Chrome "I'll respond asynchronously"
+            });
+        }
+
+        root.render(<LeHomePage />);
+        // End of : Example state and hook
+    </script>
+</body>
+</html>
